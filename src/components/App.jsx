@@ -1,16 +1,24 @@
+import { ContactForm } from './ContactForm/ContactForm';
+import { FilterForm } from './FilterForm/FilterForm';
+import { ContactDelete } from './ContactDelete/ContactDelete';
+
 export const App = () => {
-  return (
-    <div
+    return (
+      <div
       style={{
+        margin: '100px',
         height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
+        fontSize: 20,
+        color: '#010101',
       }}
-    >
-      React homework template
-    </div>
-  );
-};
+      >
+        <h1>Phonebook</h1>
+        <ContactForm />
+        <h2> Contacts</h2>
+        <FilterForm />
+        <ContactDelete />
+      </div>
+    );
+  };
+
