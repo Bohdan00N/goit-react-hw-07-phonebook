@@ -1,11 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { filterValue } from 'redux/reducer';
+import { setFilter } from 'redux/filterSlice';
 import { getFilter } from 'redux/selector';
-import css from './filterForm.module.scss';
+import css from './filter.module.scss';
 
-export const FilterForm = () => {
+export const Filter = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
+  const handleChangeFilter = (e) => {
+  dispatch(setFilter(e.target.value));
+  
+  }
 
   return (
     <div>
@@ -16,9 +20,7 @@ export const FilterForm = () => {
         name="filter"
         placeholder="Filter"
         value={filter}
-        onChange={e =>
-          dispatch(filterValue(e.target.value.toLowerCase()))
-        }
+        onChange={handleChangeFilter}
       ></input>
     </div>
   );

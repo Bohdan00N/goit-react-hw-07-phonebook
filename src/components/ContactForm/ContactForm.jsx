@@ -1,9 +1,9 @@
-import { nanoid } from '@reduxjs/toolkit';
+// import { nanoid } from '@reduxjs/toolkit';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterValue, addContact } from 'redux/reducer';
-import { getItem } from 'redux/selector';
+import { addContact } from '../../redux/operations';
+import { getContacts } from 'redux/selector';
 import css from './contactForm.module.scss';
 import { Notify } from 'notiflix';
 
@@ -17,7 +17,7 @@ const INITIAL_STATE = {
 export const ContactForm = () => {
   const [{ name, number }, setState] = useState(INITIAL_STATE);
   const dispatch = useDispatch();
-  const contacts = useSelector(getItem)
+  const contacts = useSelector(getContacts)
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -26,24 +26,14 @@ export const ContactForm = () => {
 
   const handleOnSubmit = e => {
     e.preventDefault();
-    const New = {
-      id: nanoid(3),
-      name,
-      number,
-    }
-    if (contacts.some(e => e.name === New.name)) {
-      Notify.failure(`${New.name} is already is contacts`);
-      return;
-    }
-    
-    dispatch(addContact(New));
-    Notify.success(`${New.name} is added`);
-    
-    dispatch(filterValue(''));
+    const contactsLists = [...contacts];
+    if (contactsLists.findIndex(contact => name === contact.name) !== -1) {
+      Notify.success(`${name} is already in contacts`);
+    return;
+  } dispatch(addContact({ name: name, phone: number }));
 
-    setState({ ...INITIAL_STATE });
-  };
-
+  setState({ ...INITIAL_STATE });
+};
 
   return (
     <form className={css.form} onSubmit={handleOnSubmit}>
